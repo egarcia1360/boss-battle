@@ -86,6 +86,121 @@ public:
 	}
 };
 
+void easy() {
+	char x;
+
+	cout << "Easy: Starting health = XXX, " << endl;
+	cout << "Main Weapon = Legendary Sword and Shield (base damage = XXX and shield health = XXX), Secondary Weapon = Long Bow(base damage = XXX), " << endl;
+	cout << "Healing items = X Large Potions, X Medium Potions, X Maximum Potion (Large heals XXX, Medium heals XXX, Maximum fills health)" << endl;
+	cout << "Continue with this mode? Y/N" << endl;
+	cin >> x;
+
+	if (x == 'Y' || x == 'y' || x == 'yes') {
+		cout << "Starting Easy" << endl;
+	}
+	else if (x== 'N' || x== 'n'){
+		cout << "what do you want to play then?" << endl;
+	}
+};
+void normal() {
+	char x;
+
+	cout << "Normal: Starting Health = XXX, " << endl;
+	cout << "Main Weapon = Sword and Shield (base damage = XXX and shield health = XXX), Secondary Weapon = Light Bow(base damage = XXX), " << endl;
+	cout << "Healing items = X Large Potions, X Medium Potions, X Maximum Potion (Large heals XXX, Medium heals XXX, Maximum fills health)" << endl;
+	cout << "Continue with this mode? Y/N" << endl;
+	cin >> x;
+
+	if (x == 'Y' || x == 'y' || x == 'yes') {
+		cout << "Starting Normal" << endl;
+	}
+	else if (x == 'N' || x == 'n') {
+		cout << "what do you want to play then?" << endl;
+	}
+};
+void hard() {
+	char x;
+
+	cout << "Hard: Starting Health = XXX, " << endl;
+	cout << "Main Weapon = Battle Axe(base damage = XXX and shield health = XXX) Secondary Weapon = Long Bow(base damage = XXX), " << endl;
+	cout << "Healing items = X Large Potions, X Medium Potions, X Maximum Potion (Large heals XXX, Medium heals XXX, Maximum fills health)" << endl;
+	cout << "Continue with this mode? Y/N" << endl;
+	cin >> x;
+
+	if (x == 'Y' || x == 'y' || x == 'yes') {
+		cout << "Starting Hard" << endl;
+	}
+	else if (x == 'N' || x == 'n') {
+		cout << "what do you want to play then?" << endl;
+	}
+};
+void insane() {
+	char x;
+
+	cout << "Insane: Starting Health = XXX, " << endl;
+	cout << "Main Weapon = base damage = XXX and shield health = XXX), Secondary Weapon = Light Bow(base damage = XXX)" << endl;
+	cout << "Healing items = X Large Potions, X Medium Potions, X Maximum Potion (Large heals XXX, Medium heals XXX, Maximum fills health)" << endl;
+	cout << "Continue with this mode? Y/N" << endl;
+	cin >> x;
+
+	if (x == 'Y' || x == 'y' || x == 'yes') {
+		cout << "Starting Insane" << endl;
+	}
+	else if (x == 'N' || x == 'n') {
+		cout << "what do you want to play then?" << endl;
+	}
+};
+void realistic() {
+	char x;
+
+	cout << "Realistic: Starting Health = XX, " << endl;
+	cout << "Main Weapon = Fists (base damage = XXX and shield health = XXX), Secondary Weapon = (base damage = XXX)" << endl;
+	cout << "Healing items = X Large Potions, X Medium Potions, X Maximum Potion (Large heals XXX, Medium heals XXX, Maximum fills health)" << endl;
+	cout << "Continue with this mode? Y/N" << endl;
+	cin >> x;
+
+	if (x == 'Y' || x == 'y' || x == 'yes') {
+		cout << "Starting Realistic" << endl;
+	}
+	else if (x == 'N' || x == 'n') {
+		cout << "what do you want to play then?" << endl;
+	}
+};
+
 int main() {
-	
+	int x;
+	int y;
+
+	cout << "Hello and Welcome to ... " << endl;
+	cout << "Within this game you will be set against a random opponent based off the type of challenge you want" << endl;
+	cout << "There are multiple different difficulties, ranging from easy to 'impossible' mode" << endl;
+	system("pause");
+	cout << "Easy will involve a monster with a few attacks and your player having a higher health than normal, and more healing items as well" << endl;
+	cout << "Whike on the other hand impossible will have a monster with many different high damaging attacks and your player ";
+	cout << "starting with little to no healing items, and a lower starting health as well" << endl;
+	system("pause");
+
+	cout << "What type of mode would you like to do?" << endl;
+	cout << "1. Easy" << endl;
+	cout << "2. Normal" << endl;
+	cout << "3. Hard" << endl;
+	cout << "4. Insane" << endl;
+	cout << "5. Realistic" << endl;
+	cin >> x;
+
+	if (x == 1) {
+		easy();
+	}
+	else if (x == 2) {
+		normal();
+	}
+	else if (x == 3) {
+		hard();
+	}
+	else if (x == 4) {
+		insane();
+	}
+	else if (x == 5) {
+		realistic();
+	}
 }
