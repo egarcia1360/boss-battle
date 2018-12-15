@@ -4,6 +4,41 @@
 #include <cstring>
 using namespace std;
 
+class Weapon {
+private:
+	string name;
+	int baseDamage;
+	int accuracy;
+	int critChance;
+	float critMult;
+
+public:
+	Weapon(string weaponName, int damage, int crit) {
+		name = weaponName;
+		baseDamage = damage;
+		if (crit > 100)
+			critChance = 100;
+		else
+			critChance = crit;
+	}
+
+	int getAccuracy() {
+		return accuracy;
+	}
+
+	int getCritChance() {
+		return critChance;
+	}
+
+	int getCritMult() {
+		return critMult;
+	}
+
+	int getDamage() {
+		return baseDamage;
+	}
+};
+
 class Character {
 private:
 	string name;
@@ -12,20 +47,37 @@ private:
 	bool isStunned;
 
 public:
-	Character(string username, unsigned int health, unsigned int armor) {
+	Character(string username, int health, int armor) {
 		name = username;
 		hp = health;
 		shield = armor;
 	}
 
 	void attack(Character target, Weapon strike) {
-		if (!isStunned)
-			strike.hit(target);
+		if (!isStunned) {
+			if (strike.getAccuracy() > rand() % 100) {//Determine if attack hits target
+				bool crit = strike.getCritChance() > rand() % 100;
+				int baseDamage = strike.getDamage();
+				int attackDamage = crit ? baseDamage : (unsigned int)(baseDamage * strike.getCritMult());//Determine base damage
+				if (crit)
+					cout << "Critical hit!";
+				if (attackDamage > target.getShield()) {//Determine if shield is empty or attack would make shield empty
+					attackDamage -= target.getShield();//Subtract shield amount from remaining damage
+					target.modifyShield(-target.getShield());//Remove shield
+					cout << target.getName() << "'s shield is depleted!" << endl;
+					target.modifyHealth(-attackDamage);//Remove health by amount of remaining damage
+				}
+				else
+					target.modifyShield(-attackDamage);
+			}
+			else
+				cout << "Miss!" << endl;
+		}
 		else
 			cout << name << " is stunned!" << endl;
 	}
 
-	unsigned int getHealth() {
+	int getHealth() {
 		return hp;
 	}
 
@@ -33,7 +85,7 @@ public:
 		return name;
 	}
 
-	unsigned int getShield() {
+	int getShield() {
 		return shield;
 	}
 
@@ -47,44 +99,6 @@ public:
 
 	void stun() {
 		isStunned = true;
-	}
-};
-
-class Weapon {
-private:
-	string name;
-	unsigned int baseDamage;
-	unsigned int accuracy;
-	unsigned int critChance;
-	float critMult;
-
-public:
-	Weapon(string weaponName, unsigned int damage, unsigned int crit) {
-		name = weaponName;
-		baseDamage = damage;
-		if (crit > 100)
-			critChance = 100;
-		else
-			critChance = crit;
-	}
-
-	void hit(Character target) {
-		if (accuracy > rand() % 100) {//Determine if attack hits target
-			bool crit = critChance > rand() % 100;
-			unsigned int attackDamage = crit ? baseDamage : (unsigned int)(baseDamage * abs(critMult));//Determine base damage
-			if (crit)
-				cout << "Critical hit!";
-			if (attackDamage > target.getShield()) {//Determine if shield is empty or attack would make shield empty
-				attackDamage -= target.getShield();//Subtract shield amount from remaining damage
-				target.modifyShield(-target.getShield());//Remove shield
-				cout << target.getName() << "'s shield is depleted!" << endl;
-				target.modifyHealth(-attackDamage);//Remove health by amount of remaining damage
-			}
-			else
-				target.modifyShield(-attackDamage);
-		}
-		else
-			cout << "Miss!" << endl;
 	}
 };
 
@@ -123,18 +137,16 @@ void viewDifficulty(int level) {
 }
 
 int main() {
-	int x = 0;
+	char x = 0;
+	char yeet = '?';
+	int difficulty = 0;
+	string name;
 
-	cout << "Hello and Welcome to ... " << endl;
-	cout << "Within this game you will be set against a random opponent based off the type of challenge you want" << endl;
-	cout << "There are multiple different difficulties, ranging from easy to 'impossible' mode" << endl;
-	system("pause");
-	cout << "Easy will involve a monster with a few attacks and your player having a higher health than normal, and more healing items as well" << endl;
-	cout << "Whike on the other hand impossible will have a monster with many different high damaging attacks and your player ";
-	cout << "starting with little to no healing items, and a lower starting health as well" << endl;
-	system("pause");
-
-	while (x < 1 || x > 5) {
+	cout << "Hello and welcome to The Youtube Rewind 2018 of Boss Battles!" << endl;
+	cout << "To start off, please name your character." << endl;
+	cin >> name;
+	
+	while ((x < 1) || (x > 5)) {
 		cout << "Select your difficulty level:" << endl;
 		cout << "1. Easy" << endl;
 		cout << "2. Normal" << endl;
@@ -163,11 +175,34 @@ int main() {
 			diff = "realistic";
 			break;
 		}
-		while (!(x == 'Y' || x == 'y'))
-			cout << "Are you ready to play in " << diff << " mode? [Y/N]" << endl;
 		
-		//THIS NEEDS TO BE CHECKED AND PROBABLY EDITED TO MAKE SURE IT WORKS, AND THEN FILLED IN TO ACTUALLY SET THE DETAILS OF THE DIFFICULTY
-		//LIKE CREATING THE CHARACTERS AND GIVING THEM THE WEAPONS AND ALL THAT
+		cout << x;
+
+		int hp = 0;
+		int armor = 0;
+		string bosses[] = { "Troll", "Dragon", "Dark Lord", "Basilisk", "Demon" };
+		
+		cout << "Ready to play in " << diff << "mode? [Y/N]" << endl;
+		cin >> yeet;
+		if ((yeet == 'Y') || (yeet = 'y')) {
+			hp = 250 * (x + 1);
+			armor = 250 * (x + 1);
+			Character player = Character(name, hp, armor);
+			cout << "[" << name << "]\nHealth: " << hp << "\nArmor: " << armor << endl;
+			string bossName = bosses[x - 1];
+			int bossHealth = 500 * (x + 1);
+			int bossArmor = 1000 * (x + 1);
+			Character boss = Character(bossName, bossHealth, bossArmor);
+			cout << "[" << bossName << "]\nHealth: " << bossHealth << "\nArmor: " << bossArmor << endl;
+			system("pause");
+			break;
+		}
+		system("pause");
+		cout << "Wonderful. Now choose 3 weapons." << endl;
+		cout << "1. Greatsword" << endl;
+		cout << "2. Rapier" << endl;
+		cout << "3. Battleaxe" << endl;
+		cout << "4. Shortbow" << endl;
+		cout << "5. Healing Potion" << endl;
 	}
-	
 }
